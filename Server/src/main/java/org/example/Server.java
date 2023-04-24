@@ -3,9 +3,7 @@ package org.example;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class HandleConnection implements Runnable {
 
@@ -14,16 +12,65 @@ class HandleConnection implements Runnable {
         this.con=con;
     }
 
+
+    public void signIn(String username, String password){
+
+            Server.count++;
+            System.out.println(Server.count);
+
+    }
+    public void signUp(String username, String password){
+        synchronized (Server.users){
+
+        }
+    }
+    public String retrieveList(){
+            StringBuilder res = new StringBuilder("");
+
+            for(User user : Server.users){
+                if(user.isActive())
+                    res.append(user.retrieve()).append("\n");
+            }
+            return res.toString();
+    }
+    public String handleRequest(String[] prompts ){
+        String res = null;
+        if(Objects.equals(prompts[0],"sign-in")){
+            System.out.println("Sign-in process");
+        }else if(Objects.equals(prompts[0],"sign-up")){
+            System.out.println("Sign-up process");
+        }else if(Objects.equals(prompts[0],"retrieve-list")){
+            System.out.println("retrieve process");
+
+        }else{
+            res="failed";
+        }
+
+        return res;
+    }
     @Override
     public void run() {
         try {
             Scanner scan = new Scanner(con.getInputStream());
             String str = scan.next();
+
+            String[] prompts = str.split(",");
+            String response = handleRequest(prompts);
+
+            OutputStream out = con.getOutputStream();
+            out.write("Successfully.\r".getBytes());
+            out.flush();
+
+            out.close();
             scan.close();
-            System.out.println(str);
-            con.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                con.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -34,7 +81,9 @@ public class Server extends ServerSocket {
 
     private static Server server = null;
     private int port;
-    List<User> users = new ArrayList<>();
+    public static final List<User> users = new ArrayList<>();
+    public static Integer count =0;
+
     private Server(int port) throws IOException {
         super(port);
         this.port = port;
@@ -56,9 +105,6 @@ public class Server extends ServerSocket {
         th.start();
     }
 
-
-
-
     private void initDB() throws FileNotFoundException {
         Scanner scan = new Scanner(new File("db.txt"));
 
@@ -74,8 +120,9 @@ public class Server extends ServerSocket {
         try{
             initDB();
             System.out.println("Server started at port: "+port);
+            Socket client;
             while(true){
-                Socket client = this.accept();
+                client = this.accept();
                 System.out.println("Client connected");
                 handleConnection(client);
             }

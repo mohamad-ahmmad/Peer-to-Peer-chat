@@ -6,8 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="6f170f0a-9862-4cbe-9a2e-44975f396524" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.txt" beforeDir="false" afterPath="$PROJECT_DIR$/db.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/TestClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/HandleConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/HandleConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/TestClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/TestClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/User.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1682343221273</updated>
       <workItem from="1682343222522" duration="7435000" />
-      <workItem from="1682359886746" duration="496000" />
+      <workItem from="1682359886746" duration="5479000" />
     </task>
     <servers />
   </component>
@@ -106,6 +112,20 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.net.SocketException" package="java.net" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.NoSuchElementException" package="java.util" />
+          <option name="timeStamp" value="4" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.vaadin.designer2.intellij.settings.SizePresetsSettingsComponent">
     <option name="sizePresets">

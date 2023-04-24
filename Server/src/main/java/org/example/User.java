@@ -20,6 +20,7 @@ public class User {
         return name +","+ password;
     }
 
+    public String retrieve(){return name +","+ ip +","+ port;}
     public String getPort() {
         return port;
     }
