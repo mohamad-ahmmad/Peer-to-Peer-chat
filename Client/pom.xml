@@ -15,6 +15,14 @@
     </properties>
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>11.13.5</version>
+        </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -61,7 +69,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.computer_networks_1_project/com.example.computer_networks_1_project.HelloApplication
+                                com.example.computer_networks_1_project/com.example.computer_networks_1_project.ChatApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
