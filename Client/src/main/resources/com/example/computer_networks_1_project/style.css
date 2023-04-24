@@ -1,0 +1,20 @@
+*{
+    -fx-font-family: SansSerif;
+
+}
+.login-title {
+    -fx-font-weight: bold;
+    -fx-text-fill:  #333333;
+}
+.btn{
+    -fx-background-color: #cb0efe;
+    -fx-text-fill:  white;
+}
+.sign-up{
+    -fx-background-color: #7a0ed9;
+}
+.btn-inverted{
+    -fx-background-color: white;
+    -fx-text-fill:  black;
+
+}
