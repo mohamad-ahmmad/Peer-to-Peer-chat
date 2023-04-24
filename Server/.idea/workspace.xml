@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f170f0a-9862-4cbe-9a2e-44975f396524" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.txt" beforeDir="false" afterPath="$PROJECT_DIR$/db.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/TestClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/HandleConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/HandleConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/TestClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/TestClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/User.class" afterDir="false" />
-    </list>
+    <list default="true" id="6f170f0a-9862-4cbe-9a2e-44975f396524" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,13 +30,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/USER-M/OneDrive/Desktop/Najah University/3rd year/Computer Network/Project"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.example" />
@@ -95,7 +86,7 @@
       <option name="presentableId" value="Default" />
       <updated>1682343221273</updated>
       <workItem from="1682343222522" duration="7435000" />
-      <workItem from="1682359886746" duration="5479000" />
+      <workItem from="1682359886746" duration="5593000" />
     </task>
     <servers />
   </component>
