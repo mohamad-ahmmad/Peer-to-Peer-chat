@@ -1,0 +1,19 @@
+.btn{
+    -fx-border-radius: 5px;
+    -fx-text-fill: #fff;
+    -fx-background-color: #7a0ed9;
+
+}
+.btn-logout {
+    -fx-border-radius: 5px;
+    -fx-text-fill: #fff;
+    -fx-background-color: #EF6E6B;
+}
+
+.btn-outline{
+    -fx-background-color: #ffffff;
+    /*-fx-background-color: #EF6E6B;*/
+    -fx-border-radius: 5px;
+    /*-fx-text-fill: #fff;*/
+    -fx-border-color: #7a0ed9;
+}
