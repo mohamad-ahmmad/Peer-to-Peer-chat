@@ -25,5 +25,7 @@ public class ChatApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+        // start thread 1 ( listening for incoming messages )
+        // start thread 2 ( pinging the server for new online users )
     }
 }
