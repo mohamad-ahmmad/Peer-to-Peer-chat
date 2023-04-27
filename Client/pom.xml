@@ -15,8 +15,6 @@
     </properties>
 
     <dependencies>
-
-
         <dependency>
             <groupId>io.github.palexdev</groupId>
             <artifactId>materialfx</artifactId>

@@ -1,10 +1,10 @@
-package org.example;
+package com.example.server_;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-import static org.example.Server.users;
+import static com.example.server_.Server.users;
 
 
 class HandleConnection implements Runnable {

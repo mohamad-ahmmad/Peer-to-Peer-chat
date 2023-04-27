@@ -1,3 +1,0 @@
-moha,password
-moha2,password2
-moha3,password3
