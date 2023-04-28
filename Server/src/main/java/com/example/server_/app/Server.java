@@ -1,4 +1,4 @@
-package com.example.server_;
+package com.example.server_.app;
 
 import com.example.server_.events.DBLoadedEvent;
 import com.example.server_.events.EventHandler;
@@ -19,24 +19,29 @@ public class Server extends ServerSocket {
         this.port = port;
 
     }
-    //Events the server offer:
-    public static EventHandler userCon = null;
-
-    //Fired when the data is loaded from db.txt
-    private static EventHandler dbLoaded = null;
-    public void onUserConnected(EventHandler handler){
-        userCon = handler;
-    }
-    public void onDBLoaded(EventHandler handler){
-        dbLoaded=handler;
-    }
-
 
     public static Server getInstance(int port) throws IOException {
         if(server == null)
             server = new Server(port);
 
         return server;
+    }
+
+    //Events the server offer:
+    public static EventHandler userCon = null;
+    //Fired when the data is loaded from db.txt
+    private static EventHandler dbLoaded = null;
+
+    //Fired when the user disconnected
+    public static EventHandler userDiscon = null;
+
+
+    public void onUserDisconnected(EventHandler handler){userDiscon=handler;}
+    public void onUserConnected(EventHandler handler){
+        userCon=handler;
+    }
+    public void onDBLoaded(EventHandler handler){
+        dbLoaded=handler;
     }
 
 

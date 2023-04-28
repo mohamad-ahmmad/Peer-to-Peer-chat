@@ -6,4 +6,5 @@ module com.example.server_ {
     opens com.example.server_.app to javafx.fxml;
     exports com.example.server_;
     exports com.example.server_.app;
+    opens com.example.server_ to javafx.fxml;
 }

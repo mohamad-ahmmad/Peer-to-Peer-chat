@@ -1,4 +1,4 @@
-package com.example.server_;
+package com.example.server_.app;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -22,7 +22,7 @@ public class TestClient {
 
                                     Socket client = new Socket("localhost", 8001);
                                     DataOutputStream out = new DataOutputStream(client.getOutputStream());
-                                    out.writeBytes("sign-in,moha,password,6060" + "\r");
+                                    out.writeBytes("log-out,moha,password2,6061" + "\r");
                                     out.flush();
 
                                     Scanner scan = new Scanner(client.getInputStream());

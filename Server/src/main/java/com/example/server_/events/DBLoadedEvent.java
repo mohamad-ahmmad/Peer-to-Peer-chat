@@ -1,6 +1,5 @@
 package com.example.server_.events;
-
-import com.example.server_.User;
+import com.example.server_.app.User;
 
 import java.util.List;
 
