@@ -25,10 +25,11 @@
 
 }
 ```
+```
 -->log-out,username,password,port (Responses: ok, failed).
 ```
     
-->'failed' happens when the credentials are wrong.
+### Note :'failed' happens when the credentials are wrong.
 
 <details>
 
