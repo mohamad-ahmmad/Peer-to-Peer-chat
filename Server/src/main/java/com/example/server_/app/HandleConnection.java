@@ -73,6 +73,7 @@ class HandleConnection implements Runnable {
         User user = authUser(username, password);
         if(user != null){
             //Fire up the handler for ui
+            user.setActive(false);
             if(userDiscon != null) userDiscon.handle(new UserDisconnectedEvent(user));
             return "ok";
         }
@@ -123,6 +124,7 @@ class HandleConnection implements Runnable {
             formatter.close();
             scan.close();
             System.out.println("Client disconnected");
+            System.out.println("------------------------------------------------------------------");
 
         } catch (IOException e) {
             e.printStackTrace();
