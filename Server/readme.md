@@ -3,7 +3,7 @@
     <summary>Request formats</summary>
     
 
-###In coming requests must have the following rules:
+### In coming requests must have the following rules:
 ```
 -->sign-in,username,password,port (Responses: ok, failed).
 ```
