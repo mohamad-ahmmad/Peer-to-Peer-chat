@@ -31,7 +31,7 @@
 
 Example :
 
-
+```Java
 Formatter wr = new Formatter(connection.getOutputStream());
 wr.format("log-out,moha,password");
 wr.flush();
@@ -42,5 +42,5 @@ String res = in.next();
 connection.close();
 ..
 ...
-
+```
 
