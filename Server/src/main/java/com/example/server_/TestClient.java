@@ -3,7 +3,11 @@ package com.example.server_;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -18,7 +22,7 @@ public class TestClient {
 
                                     Socket client = new Socket("localhost", 8001);
                                     DataOutputStream out = new DataOutputStream(client.getOutputStream());
-                                    out.writeBytes("retrieve-list" + "\r");
+                                    out.writeBytes("sign-in,moha,password,6060" + "\r");
                                     out.flush();
 
                                     Scanner scan = new Scanner(client.getInputStream());

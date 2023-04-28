@@ -1,5 +1,9 @@
 package com.example.server_;
 
+import com.example.server_.events.EventHandler;
+import com.example.server_.events.UserConnectedEvent;
+
+
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
@@ -15,17 +19,27 @@ class HandleConnection implements Runnable {
     }
 
 
+
+
+    public void onUserDisconnected(){
+
+    }
+
     public String signIn(String username, String password, String port){
         for(User user : users){
-            System.out.println(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()));
+
             if(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()))
             {
                 user.setActive(true);
-                System.out.println(con.getRemoteSocketAddress().toString());
+
                 //The format of the address /ip:port,
                 // so I did some manipulation to the string and save it in proper way.
                 user.setIp(con.getRemoteSocketAddress().toString().split(":")[0].replace("/",""));
                 user.setPort(port);
+
+                //Checking for the handler of the sign-in event the handlers interfaces in the server
+                //but the handler implementation in the Controller- Class
+                if(Server.userCon != null) Server.userCon.handle(new UserConnectedEvent(user));
                 return "ok";
             }
         }
@@ -83,8 +97,8 @@ class HandleConnection implements Runnable {
 
             String[] prompts = str.split(",");
             //Handling the request
+            System.out.println(prompts[0]);
             String response = handleRequest(prompts);
-
             //Send back the response to the client
             Formatter formatter = new Formatter(con.getOutputStream());
             formatter.format(response+"\r");
@@ -93,6 +107,7 @@ class HandleConnection implements Runnable {
             //close the connections
             formatter.close();
             scan.close();
+            System.out.println("Client disconnected");
 
         } catch (IOException e) {
             e.printStackTrace();
