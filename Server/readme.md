@@ -2,7 +2,6 @@
 <details>
     <summary>Request formats</summary>
     
-
 ### Sign-in
 ```
 -->sign-in,username,password,port (Responses: ok, failed).
@@ -12,18 +11,17 @@
 ```
 -->sign-up,username,password,port (Responses: ok, failed).
 ```
+    
 ### Retrieve online users
 ```    
 -->retrieve-list, (Return all users (online)), response:{
     name,password,ip,port\n
     ..
     ...
-    
---So you have to read using a loop => while(scan.hasNext())
-
---Note: after each line there's new-line.
-
 }
+--So you have to read using a loop => while(scan.hasNext())
+--Note: after each line there's new-line.
+    
 ```
 
 ### log-out 
