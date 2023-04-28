@@ -8,7 +8,7 @@
 -->sign-in,username,password,port (Responses: ok, failed).
 ```
 
-### Sign-in
+### Sign-up
 ```
 -->sign-up,username,password,port (Responses: ok, failed).
 ```
