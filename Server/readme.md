@@ -15,8 +15,6 @@
 ### Retrieve online users
 ```    
 -->retrieve-list, (Return all users (online)), response:{
-    ->Format of retrieve-list
-    
     name,password,ip,port\n
     ..
     ...
