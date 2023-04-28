@@ -37,7 +37,7 @@ wr.format("log-out,moha,password");
 wr.flush();
 
 Scanner in = new Scanner(connection.getInputStream());
-String res = in.next();
+String res = in.next(); //failed or ok
 
 connection.close();
 ..
