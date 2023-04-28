@@ -16,8 +16,12 @@ class HandleConnection implements Runnable {
 
 
     public String signIn(String username, String password, String port){
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(port);
+
         for(User user : users){
-            System.out.println(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()));
+//            System.out.println(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()));
             if(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()))
             {
                 user.setActive(true);
@@ -26,6 +30,7 @@ class HandleConnection implements Runnable {
                 // so I did some manipulation to the string and save it in proper way.
                 user.setIp(con.getRemoteSocketAddress().toString().split(":")[0].replace("/",""));
                 user.setPort(port);
+                System.out.println("Client connected");
                 return "ok";
             }
         }
@@ -80,6 +85,8 @@ class HandleConnection implements Runnable {
             //Get the request from the client.
             Scanner scan = new Scanner(con.getInputStream());
             String str = scan.next();
+
+            System.out.println(str);
 
             String[] prompts = str.split(",");
             //Handling the request

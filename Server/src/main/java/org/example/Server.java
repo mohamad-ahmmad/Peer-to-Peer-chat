@@ -51,7 +51,6 @@ public class Server extends ServerSocket {
             Socket client;
             while(true){
                 client = this.accept();
-                System.out.println("Client connected");
                 handleConnection(client);
             }
         }catch(Exception e){
