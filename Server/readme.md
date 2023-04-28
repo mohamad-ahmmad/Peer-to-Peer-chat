@@ -4,7 +4,9 @@
 #First line must be the type of the request.(Sign In/up, retrieve-list, log-out)
 
 -->sign-in,username,password,port (Responses: ok, failed).
+
 -->sign-up,username,password,port (Responses: ok, failed).
+
 -->retrieve-list, (Return all users (online)), response:{
     ->Format of retrieve-list
     name,password,ip,port\n
