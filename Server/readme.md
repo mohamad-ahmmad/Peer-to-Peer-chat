@@ -4,17 +4,17 @@
     
 ### Sign-in
 ```
--->sign-in,username,password,port (Responses: ok, failed).
+-->"sign-in,username,password,port" (Responses: ok, failed).
 ```
 
 ### Sign-up
 ```
--->sign-up,username,password,port (Responses: ok, failed).
+-->"sign-up,username,password,port" (Responses: ok, failed).
 ```
     
 ### Retrieve online users
 ```    
--->retrieve-list, (Return all users (online)), response:{
+-->"retrieve-list," (Return all users (online)), response:{
     name,password,ip,port\n
     ..
     ...
@@ -26,7 +26,7 @@
 
 ### log-out 
 ```
--->log-out,username,password,port (Responses: ok, failed).
+-->"log-out,username,password,port" (Responses: ok, failed).
 ```
     
 ### Note :'failed' happens when the credentials are wrong.
