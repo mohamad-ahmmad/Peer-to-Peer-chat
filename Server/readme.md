@@ -9,11 +9,16 @@
 
 -->retrieve-list, (Return all users (online)), response:{
     ->Format of retrieve-list
+    
     name,password,ip,port\n
+    
     ..
     ...
+    
 --So you have to read using a loop => while(scan.hasNext())
+
 --Note: after each line there's new-line.
+
 }
 
 -->log-out,username,password,port (Responses: ok, failed).
