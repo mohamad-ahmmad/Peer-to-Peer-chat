@@ -3,14 +3,16 @@
     <summary>Request formats</summary>
     
 
-### In coming requests must have the following rules:
+### Sign-in
 ```
 -->sign-in,username,password,port (Responses: ok, failed).
 ```
+
+### Sign-in
 ```
 -->sign-up,username,password,port (Responses: ok, failed).
 ```
-    
+### Retrieve online users
 ```    
 -->retrieve-list, (Return all users (online)), response:{
     ->Format of retrieve-list
@@ -25,6 +27,8 @@
 
 }
 ```
+
+### log-out 
 ```
 -->log-out,username,password,port (Responses: ok, failed).
 ```
