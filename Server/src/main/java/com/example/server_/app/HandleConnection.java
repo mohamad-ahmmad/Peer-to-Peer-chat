@@ -1,10 +1,15 @@
-package org.example;
+package com.example.server_.app;
+
+import com.example.server_.events.EventHandler;
+import com.example.server_.events.UserConnectedEvent;
+import com.example.server_.events.UserDisconnectedEvent;
+
 
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-import static org.example.Server.users;
+import static com.example.server_.app.Server.*;
 
 
 class HandleConnection implements Runnable {
@@ -14,50 +19,65 @@ class HandleConnection implements Runnable {
         this.con=con;
     }
 
+    public User authUser(String username, String password){
+        for(User user : Server.users)
+            if(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()))
+                return user;
+
+        return null;
+    }
 
     public String signIn(String username, String password, String port){
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(port);
 
-        for(User user : users){
-//            System.out.println(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()));
-            if(Objects.equals(username, user.getName())&&Objects.equals(password, user.getPassword()))
-            {
-                user.setActive(true);
-                System.out.println(con.getRemoteSocketAddress().toString());
-                //The format of the address /ip:port,
-                // so I did some manipulation to the string and save it in proper way.
-                user.setIp(con.getRemoteSocketAddress().toString().split(":")[0].replace("/",""));
-                user.setPort(port);
-                System.out.println("Client connected");
-                return "ok";
-            }
+        User user = authUser(username, password);
+        if(!Objects.equals(user,null)) {
+            user.setActive(true);
+
+            //The format of the address /ip:port,
+            //Filter the ip
+            user.setIp(con.getRemoteSocketAddress().toString().split(":")[0].replace("/", ""));
+            user.setPort(port);
+
+            //Checking for the handler of the sign-in event the handlers interfaces in the server
+            //but the handler implementation in the Controller- Class
+            if (Server.userCon != null) Server.userCon.handle(new UserConnectedEvent(user));
+            return "ok";
         }
-
         return "failed";
     }
     public String signUp(String username, String password,String port){
-        synchronized (users){
+        synchronized (Server.users){
             User newUser = new User(username,password);
-            for(User user : users)
+            for(User user : Server.users)
                 if(user.equals(newUser)){
                     return "failed";
                 }
             newUser.setPort(port);
             newUser.setIp(con.getRemoteSocketAddress().toString());
-            users.add(newUser);
+            Server.users.add(newUser);
+            //Execute the event handler for connecting new user.
+            if(Server.userCon != null) userCon.handle(new UserConnectedEvent(newUser));
             return "ok";
         }
     }
     public String retrieveList(){
         StringBuilder res = new StringBuilder("");
 
-        for(User user : users)
+        for(User user : Server.users)
             if(user.isActive())
                 res.append(user.retrieve()).append("\n");
 
         return res.toString();
+    }
+    private String logout(String username, String password) {
+        User user = authUser(username, password);
+        if(user != null){
+            //Fire up the handler for ui
+            user.setActive(false);
+            if(userDiscon != null) userDiscon.handle(new UserDisconnectedEvent(user));
+            return "ok";
+        }
+        return "failed";
     }
     public String handleRequest(String[] prompts ){
         String res = null;
@@ -73,12 +93,17 @@ class HandleConnection implements Runnable {
             res =signUp(prompts[1], prompts[2], prompts[3]);
         else if(Objects.equals(prompts[0],"retrieve-list"))
             res= retrieveList();
+        else if(Objects.equals(prompts[0], "log-out"))
+            res= logout(prompts[1], prompts[2]);
         else
             res="failed";
 
 
         return res;
     }
+
+
+
     @Override
     public void run() {
         try {
@@ -86,12 +111,10 @@ class HandleConnection implements Runnable {
             Scanner scan = new Scanner(con.getInputStream());
             String str = scan.next();
 
-            System.out.println(str);
-
             String[] prompts = str.split(",");
             //Handling the request
+            System.out.println(prompts[0]);
             String response = handleRequest(prompts);
-
             //Send back the response to the client
             Formatter formatter = new Formatter(con.getOutputStream());
             formatter.format(response+"\r");
@@ -100,6 +123,8 @@ class HandleConnection implements Runnable {
             //close the connections
             formatter.close();
             scan.close();
+            System.out.println("Client disconnected");
+            System.out.println("------------------------------------------------------------------");
 
         } catch (IOException e) {
             e.printStackTrace();

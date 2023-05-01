@@ -1,26 +1,53 @@
 
---In coming requests must have the following rules:
+<details>
+    <summary>Request formats</summary>
+    
+### Sign-in
+```
+-->"sign-in,username,password,port" (Responses: ok, failed).
+```
 
-#First line must be the type of the request.(Sign In/up)
---sign-in,username,password,port (Responses: ok, failed).
---sign-up,username,password,port (Responses: ok, failed).
-
---retrieve-list, (Return all users (online)).
-
-->Format of retrieve-list
-name,password,ip,port\n
-..
-...
-
+### Sign-up
+```
+-->"sign-up,username,password,port" (Responses: ok, failed).
+```
+    
+### Retrieve online users
+```    
+-->"retrieve-list," (Return all users (online)), response:{
+    name,password,ip,port\n
+    ..
+    ...
+}
 --So you have to read using a loop => while(scan.hasNext())
-Note: after each line there's new-line.
+--Note: after each line there's new-line.
+    
+```
+
+### log-out 
+```
+-->"log-out,username,password,port" (Responses: ok, failed).
+```
+    
+### Note :'failed' happens when the credentials are wrong.
+
+</details>
+
+
 
 
 Example :
 
+```Java
 Formatter wr = new Formatter(connection.getOutputStream());
-wr.format("name,password,port");
-wr.flush
+wr.format("log-out,moha,password");
+wr.flush();
 
 Scanner in = new Scanner(connection.getInputStream());
-String res = in.next();
+String res = in.next(); //failed or ok
+
+connection.close();
+..
+...
+```
+

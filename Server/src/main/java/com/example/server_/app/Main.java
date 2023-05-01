@@ -1,4 +1,4 @@
-package org.example;
+package com.example.server_.app;
 
 import java.io.IOException;
 

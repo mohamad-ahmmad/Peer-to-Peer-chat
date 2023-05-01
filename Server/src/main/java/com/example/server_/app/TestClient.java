@@ -1,9 +1,13 @@
-package org.example;
+package com.example.server_.app;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Scanner;
 

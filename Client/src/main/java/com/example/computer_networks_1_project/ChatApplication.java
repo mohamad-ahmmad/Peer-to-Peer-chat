@@ -7,12 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.Objects;
-import java.util.Scanner;
-
-
+import java.util.*;
 
 
 public class ChatApplication extends Application {
@@ -76,7 +71,8 @@ public class ChatApplication extends Application {
     public static int portServer = 8001;
 
     public static final int MAX_MESSAGE_SIZE = 2048;
-    public static ArrayList<Peer> activePeers;
+    public static ArrayList<Peer> activePeers = new ArrayList<>();
+    public static SharedBuffer peersBuffer = new SharedBuffer();
 
 
 
@@ -93,7 +89,7 @@ public class ChatApplication extends Application {
 
         String username = keyStream.next();
         String password = keyStream.next();
-        output.format("sign-in," + username + "," + password + "," + clientSocket.getLocalPort() + "\n");
+        output.format("sign-in," + username + "," + password + "," + clientSocket.getLocalPort() + "\n"); // change port registered at server
         output.flush();
 
         Scanner input = new Scanner(clientSocket.getInputStream());
@@ -126,6 +122,22 @@ public class ChatApplication extends Application {
         while (true) {
             // read message from scanner
 
+            System.out.println("d or m");
+            String selection = in.next();
+
+            System.out.println("Choose which peer (start from 1): ");
+            int peerNumber = in.nextInt();
+
+//            Peer peerToSend = null;
+//            synchronized (activePeers) {
+//
+//                peerToSend = activePeers.get(peerNumber-1);
+//            }
+//            InetSocketAddress peerToSendAddress = new InetSocketAddress(peerToSend.getIP(), peerToSend.getPort());
+
+            Peer peerToSend = peersBuffer.getPeerByIndex(peerNumber - 1);
+            if ("m".equals(selection)) {
+
             System.out.println("Type your message: ");
 
             String message = in.nextLine();
@@ -135,21 +147,20 @@ public class ChatApplication extends Application {
                 message = in.nextLine();
             }
 
-            sendBuffer = message.getBytes();
-
-            System.out.println("Choose which peer (start from 1): ");
-            int peerNumber = in.nextInt();
 
             // create socket datagram
-            try  {
+            try {
             // create datagram packet and put destination address and destination port got from online users
-                Peer peerToSend = activePeers.get(peerNumber-1);
-                InetSocketAddress peerToSendAddress = new InetSocketAddress(peerToSend.getIP(), peerToSend.getPort());
 
-                DatagramPacket packetSent = new DatagramPacket(sendBuffer, sendBuffer.length, peerToSendAddress);
             // send the packet through the socket
+                peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false);
+//                peerToSend.getMessagesSent().add(message.replaceAll("^A-z|^0-9", ""));
+
+                // add messsage prefix
+                message = "m," + message;
+                sendBuffer = message.getBytes();
+                DatagramPacket packetSent = new DatagramPacket(sendBuffer, sendBuffer.length, peerToSend.getAddress());
                 mySocket.send(packetSent);
-                peerToSend.getMessagesSent().add(message.replaceAll("^A-z|^0-9", ""));
 
             } catch (SocketException e) {
                 System.err.println(e.getMessage());
@@ -157,9 +168,28 @@ public class ChatApplication extends Application {
                 System.err.println(e.getMessage());
             }
 
+            } else if ("d".equals(selection)) {
+                System.out.println("select message number: ");
+                int index = Integer.parseInt(in.next());
+
+                peerToSend.getMessagesSent().remove(index);
+                String message = "d," + index;
+                sendBuffer = message.getBytes();
+
+                DatagramPacket deletePacket = new DatagramPacket(sendBuffer, sendBuffer.length, peerToSend.getAddress());
+                try {
+                    mySocket.send(deletePacket);
+
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+
 
         }
     };
+
+    List<Peer> list = Collections.synchronizedList(new ArrayList<>());
     public static Runnable processIncomingMessagesCallback = () -> {
         try {
 
@@ -171,15 +201,40 @@ public class ChatApplication extends Application {
                 mySocket.receive(incomingPacket);
                 String messageReceived = new String(incomingPacket.getData());
 
-                System.out.println(incomingPacket.getPort());
-                System.out.println(messageReceived);
-
-                for (Peer peer : activePeers) {
+                String[] header = messageReceived.split(",");
+                if ("m".equals(header[0])) {
+                    messageReceived = messageReceived.substring(2);
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
-                    if (Objects.equals(peer.getPort(), incomingPacket.getPort()) && Objects.equals(peer.getIP(), incomingIP)) {
-                        peer.getMessagesReceived().add(messageReceived.replaceAll("^A-z|^0-9", ""));
-                        break;
-                    }
+                    peersBuffer.setPeerMessage(incomingIP, incomingPacket.getPort(), messageReceived.replaceAll("^A-z|^0-9", ""), true);
+
+//                    synchronized (activePeers) {
+//                        for (Peer peer : activePeers) {
+//                            if (Objects.equals(peer.getPort(), incomingPacket.getPort()) && Objects.equals(peer.getIP(), incomingIP)) {
+//                                peer.getMessagesReceived().add(messageReceived.replaceAll("^A-z|^0-9", ""));
+//                                break;
+//                            }
+//                        }
+//                    }
+
+
+                    System.out.println(incomingPacket.getPort());
+                    System.out.println(messageReceived);
+
+                } else if ("d".equals(header[0])) {
+                    int index = Integer.parseInt(header[1]);
+                    String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
+                    peersBuffer.deletePeerMessage(incomingIP, incomingPacket.getPort(), index, true);
+
+//                    synchronized (activePeers) {
+//
+//                    for (Peer peer : activePeers) {
+//                        String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
+//                        if (Objects.equals(peer.getPort(), incomingPacket.getPort()) && Objects.equals(peer.getIP(), incomingIP)) {
+//                            peer.getMessagesReceived().remove(index);
+//                            break;
+//                        }
+//                    }
+//                    }
                 }
 
             }
@@ -202,9 +257,8 @@ public class ChatApplication extends Application {
 
             try (Socket pingSocket = new Socket()){
 
-                Thread.sleep(10000);
+                Thread.sleep(1000);
                 System.out.println("pinging server");
-                activePeers = new ArrayList<>();
 
                 pingSocket.connect(new InetSocketAddress(IPServer, portServer));
 
@@ -215,12 +269,14 @@ public class ChatApplication extends Application {
                 output.flush();
                 int i = 1;
 
+                List<Peer> onlinePeers = new ArrayList<>();
                 while(input.hasNext()){
                     String peerInfo = input.next();
-
-                    System.out.println("user " + i++ + ": " + peerInfo); // prints out online users as they are returned from server
-                    activePeers.add(stringToPeer(peerInfo));
+                    onlinePeers.add(stringToPeer(peerInfo));
                 }
+                peersBuffer.addPeers(onlinePeers);
+                peersBuffer.printActivePeers();
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

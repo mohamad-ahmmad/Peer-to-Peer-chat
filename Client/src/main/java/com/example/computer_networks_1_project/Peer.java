@@ -1,5 +1,7 @@
 package com.example.computer_networks_1_project;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,25 @@ public class Peer {
         this.port = port;
     }
 
+    // messages that were received from this peer when looked at from application point of view.
     private List<String> messagesReceived = new ArrayList<>();
+
+    // messages that are sent to this peer when looked at from application point of view.
     private List<String> messagesSent = new ArrayList<>();
 
+    public void update(String name, String IP, int port) {
+        this.name = new String(name);
+        this.IP = new String(IP);
+        this.port = port;
+    }
+
+    public void deleteMessage(int index, boolean direction) {
+        if(!direction) {
+            this.messagesSent.remove(index);
+        } else {
+            this.messagesReceived.remove(index);
+        }
+    }
     public String getName() {
         return name;
     }
@@ -37,6 +55,9 @@ public class Peer {
         return port;
     }
 
+    public InetSocketAddress getAddress() {
+        return new InetSocketAddress(this.getIP(), this.getPort());
+    }
     public void setPort(int port) {
         this.port = port;
     }
@@ -57,6 +78,12 @@ public class Peer {
         this.messagesSent = messagesSent;
     }
 
-
+    @Override
+    public boolean equals(Object peer){
+        if (peer instanceof Peer peer1) {
+            return peer1.getName().equals(this.getName());
+        }
+        return false;
+    }
 
 }
