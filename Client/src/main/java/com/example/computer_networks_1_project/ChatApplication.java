@@ -53,8 +53,6 @@ public class ChatApplication extends Application {
         sendMessages.start();
 
         launch();
-        // create a socket for the client to register for the server
-
 
     }
 
@@ -128,13 +126,6 @@ public class ChatApplication extends Application {
             System.out.println("Choose which peer (start from 1): ");
             int peerNumber = in.nextInt();
 
-//            Peer peerToSend = null;
-//            synchronized (activePeers) {
-//
-//                peerToSend = activePeers.get(peerNumber-1);
-//            }
-//            InetSocketAddress peerToSendAddress = new InetSocketAddress(peerToSend.getIP(), peerToSend.getPort());
-
             Peer peerToSend = peersBuffer.getPeerByIndex(peerNumber - 1);
             if ("m".equals(selection)) {
 
@@ -147,16 +138,11 @@ public class ChatApplication extends Application {
                 message = in.nextLine();
             }
 
-
-            // create socket datagram
             try {
-            // create datagram packet and put destination address and destination port got from online users
 
-            // send the packet through the socket
                 peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false);
-//                peerToSend.getMessagesSent().add(message.replaceAll("^A-z|^0-9", ""));
 
-                // add messsage prefix
+                // add message prefix
                 message = "m," + message;
                 sendBuffer = message.getBytes();
                 DatagramPacket packetSent = new DatagramPacket(sendBuffer, sendBuffer.length, peerToSend.getAddress());
@@ -207,16 +193,6 @@ public class ChatApplication extends Application {
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
                     peersBuffer.setPeerMessage(incomingIP, incomingPacket.getPort(), messageReceived.replaceAll("^A-z|^0-9", ""), true);
 
-//                    synchronized (activePeers) {
-//                        for (Peer peer : activePeers) {
-//                            if (Objects.equals(peer.getPort(), incomingPacket.getPort()) && Objects.equals(peer.getIP(), incomingIP)) {
-//                                peer.getMessagesReceived().add(messageReceived.replaceAll("^A-z|^0-9", ""));
-//                                break;
-//                            }
-//                        }
-//                    }
-
-
                     System.out.println(incomingPacket.getPort());
                     System.out.println(messageReceived);
 
@@ -224,17 +200,6 @@ public class ChatApplication extends Application {
                     int index = Integer.parseInt(header[1]);
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
                     peersBuffer.deletePeerMessage(incomingIP, incomingPacket.getPort(), index, true);
-
-//                    synchronized (activePeers) {
-//
-//                    for (Peer peer : activePeers) {
-//                        String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
-//                        if (Objects.equals(peer.getPort(), incomingPacket.getPort()) && Objects.equals(peer.getIP(), incomingIP)) {
-//                            peer.getMessagesReceived().remove(index);
-//                            break;
-//                        }
-//                    }
-//                    }
                 }
 
             }

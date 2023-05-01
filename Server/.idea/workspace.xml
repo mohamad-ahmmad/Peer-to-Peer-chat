@@ -5,45 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abb69af7-6e13-483e-be8f-4414cca6ccf1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/Controller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/ServerApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/events/DBLoadedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/events/Event.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/events/EventHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/events/UserConnectedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/events/UserDisconnectedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/view/UserBar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/server_/app/imgs/green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/server_/app/imgs/red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/server_/app/server.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/Peer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Server.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/app/HandleConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/HandleConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HandleConnection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/TestClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/HandleConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Server.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/TestClient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/User.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +127,7 @@
       <workItem from="1682623812704" duration="5159000" />
       <workItem from="1682685863939" duration="10293000" />
       <workItem from="1682930644378" duration="12000" />
-      <workItem from="1682932859026" duration="3556000" />
+      <workItem from="1682932859026" duration="4335000" />
     </task>
     <servers />
   </component>
