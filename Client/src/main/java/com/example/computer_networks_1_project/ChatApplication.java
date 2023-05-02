@@ -1,5 +1,7 @@
 package com.example.computer_networks_1_project;
 
+import com.example.computer_networks_1_project.controllers.ClientController;
+import com.example.computer_networks_1_project.requests.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,20 +10,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 
 public class ChatApplication extends Application {
-
-
-    public static Socket clientSocket = new Socket();
-    public static boolean status = true;
-
-
+    public static boolean status = false;
+    public static FXMLLoader fxmlLoader;
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("login.fxml"));
+        fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("client.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        System.out.println("fxml loaded");
+
         scene.getStylesheets().add(String.valueOf(ChatApplication.class.getResource("style.css")));
         stage.setResizable(false);
         stage.setTitle("Chat System");
@@ -30,28 +31,34 @@ public class ChatApplication extends Application {
     }
 
     public static void main(String[] args) {
-        // TODO start thread 1 ( listening for incoming messages )
+
         Thread processIncomingMessages = new Thread(processIncomingMessagesCallback, "process incoming messages");
-
-
-
-        // TODO start thread 2 ( pinging the server for new online users )
         Thread pingServer = new Thread(pingServerCallback, "ping server");
-//        clientSocket.connect(new InetSocketAddress(IPServer, portServer));
-
-        // TODO start thread 3 ( for sending messages )
         Thread sendMessages = new Thread(sendMessagesCallback, "send messages");
 
+
+        Request r = new SignInRequest.SignInRequestBuilder()
+                .setPort(5555)
+                .setUsername("salah")
+                .setPassword("123")
+                .build();
+        r.send();
+
+
         try {
+            mySocket = new DatagramSocket();
             login(IPServer, portServer);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        processIncomingMessages.start();
+//        processIncomingMessages.start();
         pingServer.start(); // this should be called after the user has logged in.
-        sendMessages.start();
+//        sendMessages.start();
 
+        Scanner in = new Scanner(System.in);
+
+//        logout();
         launch();
 
     }
@@ -69,14 +76,37 @@ public class ChatApplication extends Application {
     public static int portServer = 8001;
 
     public static final int MAX_MESSAGE_SIZE = 2048;
-    public static ArrayList<Peer> activePeers = new ArrayList<>();
     public static SharedBuffer peersBuffer = new SharedBuffer();
 
 
 
+    public static String logout() {
+
+        try (Socket logoutSocket = new Socket()) {
+            logoutSocket.connect(new InetSocketAddress(IPServer, portServer));
+
+            Scanner fromServer = new Scanner(logoutSocket.getInputStream());
+            Formatter toServer = new Formatter(logoutSocket.getOutputStream());
+
+            toServer.format("log-out," + username +","+ password + "," + mySocket.getLocalPort() + "\n");
+            toServer.flush();
+
+            if(fromServer.hasNext()) {
+                status = false;
+                return ("ok".equals(fromServer.next())) ? "ok" : "wrong credentials";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String username;
+    public static String password;
+
     public static String login(InetAddress serverIP, int serverPort) throws IOException {
-        // TODO sends the server a request to log in with username and password.
-        // TODO the message is sent using TCP.
+
+        Socket clientSocket = new Socket();
 
         System.out.println("connecting to server...");
         clientSocket.connect(new InetSocketAddress(serverIP, serverPort));
@@ -87,7 +117,8 @@ public class ChatApplication extends Application {
 
         String username = keyStream.next();
         String password = keyStream.next();
-        output.format("sign-in," + username + "," + password + "," + clientSocket.getLocalPort() + "\n"); // change port registered at server
+
+        output.format("sign-in," + username + "," + password + "," + mySocket.getLocalPort() + "\n"); // change port registered at server
         output.flush();
 
         Scanner input = new Scanner(clientSocket.getInputStream());
@@ -97,14 +128,15 @@ public class ChatApplication extends Application {
             String response = input.next();
             clientSocket.close();
             System.out.println(response);
-            mySocket = new DatagramSocket(clientSocket.getLocalPort());
+//            mySocket = new DatagramSocket(clientSocket.getLocalPort());
             input.close();
-            output.close();
+
+            status = true;
             return response;
 
         }
         clientSocket.close();
-        mySocket = new DatagramSocket(clientSocket.getLocalPort());
+//        mySocket = new DatagramSocket(clientSocket.getLocalPort());
             input.close();
             output.close();
         return "no response";
@@ -117,7 +149,7 @@ public class ChatApplication extends Application {
         // create buffer of message size
         byte[] sendBuffer;
 
-        while (true) {
+        while (status) {
             // read message from scanner
 
             System.out.println("d or m");
@@ -181,7 +213,7 @@ public class ChatApplication extends Application {
 
             byte[] dataRecv = new byte[MAX_MESSAGE_SIZE];
             System.out.println("listening for messages...");
-            while(true) {
+            while(status) {
 
                 DatagramPacket incomingPacket = new DatagramPacket(dataRecv, MAX_MESSAGE_SIZE);
                 mySocket.receive(incomingPacket);
@@ -216,14 +248,14 @@ public class ChatApplication extends Application {
         return new Peer(tokens[0], tokens[1], Integer.parseInt(tokens[2]));
     }
 
+    public static CountDownLatch waitToLoad = new CountDownLatch(1);
     public static Runnable pingServerCallback = () -> {
-        while(true) {
+        while(status) {
             // send a "retrieve-list" message to server to get online users
 
             try (Socket pingSocket = new Socket()){
 
                 Thread.sleep(1000);
-                System.out.println("pinging server");
 
                 pingSocket.connect(new InetSocketAddress(IPServer, portServer));
 
@@ -240,7 +272,11 @@ public class ChatApplication extends Application {
                     onlinePeers.add(stringToPeer(peerInfo));
                 }
                 peersBuffer.addPeers(onlinePeers);
-                peersBuffer.printActivePeers();
+                waitToLoad.await(); // blocks this thread until counter is zero, counter is zero when UI is visible.
+
+                ((ClientController)fxmlLoader.getController()).updatePeersList();
+
+//                peersBuffer.printActivePeers();
 
             } catch (IOException e) {
                 e.printStackTrace();

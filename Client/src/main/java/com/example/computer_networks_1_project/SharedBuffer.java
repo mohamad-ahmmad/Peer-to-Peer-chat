@@ -1,11 +1,13 @@
 package com.example.computer_networks_1_project;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 
 // we can also set the methods as synchronized instead of a monitor object.
+// or we can use Collections.SynchronizedList(List<> list); this is a wrapper to a List similar to this "Shared Buffer" class.
 public class SharedBuffer {
     private List<Peer> activePeers = new ArrayList<>();
 
@@ -41,8 +43,16 @@ public class SharedBuffer {
     public void printActivePeers(){
         synchronized (monitor){
             int i = 1;
-            activePeers.stream().forEach(peer -> System.out.println(i + ":" + peer.getName() + " " + + peer.getPort() + " " + peer.getIP()));
+            activePeers.forEach(peer -> System.out.println(i + ":" + peer.getName() + " " + + peer.getPort() + " " + peer.getIP()));
         }
+    }
+
+    public List<String> getListOfActivePeers(){
+        synchronized (monitor) {
+            return Arrays.asList(activePeers.stream()
+                    .map(peer -> peer.getIP() + ":" + peer.getPort())
+                    .toArray(String[]::new)); // typecast object[] to string[]
+        } // or return an unmodifiable list of activePeers to ensure thread safety
     }
     /*
     * @param direction if false, the message is stored in the send buffer, the message is sent to that peer
