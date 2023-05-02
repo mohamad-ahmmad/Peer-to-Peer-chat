@@ -22,7 +22,7 @@ public class TestClient {
 
                                     Socket client = new Socket("localhost", 8001);
                                     DataOutputStream out = new DataOutputStream(client.getOutputStream());
-                                    out.writeBytes("retrieve-list" + "\r");
+                                    out.writeBytes("sign-in,moha,password,6060" + "\r");
                                     out.flush();
 
                                     Scanner scan = new Scanner(client.getInputStream());

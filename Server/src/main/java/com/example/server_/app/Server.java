@@ -53,7 +53,7 @@ public class Server extends ServerSocket {
 
     private void initDB() throws FileNotFoundException {
         Scanner scan = new Scanner(new File("db.txt"));
-
+        users.clear();
         while (scan.hasNext()){
             String line = scan.next();
             String[] data = line.split(",");
@@ -79,6 +79,12 @@ public class Server extends ServerSocket {
         }
     }
 
+    public static void deleteAllInterfaces()  {
+
+            Server.userCon = null;
+            Server.userDiscon = null;
+            Server.dbLoaded = null;
 
 
+    }
 }
