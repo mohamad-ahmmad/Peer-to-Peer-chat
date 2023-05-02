@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abb69af7-6e13-483e-be8f-4414cca6ccf1" name="Changes" comment="">
+<!--<<<<<<< HEAD-->
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/app/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/app/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/TestClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/view/UserBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/view/UserBarView.java" afterDir="false" />
+<!--=======-->
+<!--      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" afterDir="false" />-->
+<!--&gt;>>>>>> 276e2157125b6eb26f933154bfba75ace9443163-->
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +45,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+
     &quot;last_opened_file_path&quot;: &quot;C:/Users/USER-M/OneDrive/Desktop/Najah University/3rd year/2nd Sem/Computer Network/Project/Server&quot;
   }
 }</component>
@@ -56,7 +61,7 @@
       <recent name="com.example.server_" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestClient">
+  <component name="RunManager" selected="Application.ServerApplication">
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.server_.app.HelloApplication" />
       <module name="Server" />
@@ -111,8 +116,12 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestClient" />
         <item itemvalue="Application.ServerApplication" />
+        <item itemvalue="Application.TestClient" />
+<<<<<<< HEAD
+        <item itemvalue="Application.ServerApplication" />
+=======
+>>>>>>> 276e2157125b6eb26f933154bfba75ace9443163
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.HelloApplication" />
       </list>
@@ -128,9 +137,15 @@
       <updated>1682555651351</updated>
       <workItem from="1682555652732" duration="373000" />
       <workItem from="1682623812704" duration="5159000" />
+<<<<<<< HEAD
       <workItem from="1682685863939" duration="10896000" />
       <workItem from="1682932755171" duration="717000" />
       <workItem from="1683023576878" duration="1706000" />
+=======
+      <workItem from="1682685863939" duration="10293000" />
+      <workItem from="1682930644378" duration="12000" />
+      <workItem from="1682932859026" duration="4335000" />
+>>>>>>> 276e2157125b6eb26f933154bfba75ace9443163
     </task>
     <servers />
   </component>

@@ -28,8 +28,8 @@ class HandleConnection implements Runnable {
     }
 
     public String signIn(String username, String password, String port){
-        User user = authUser(username, password);
 
+        User user = authUser(username, password);
         if(!Objects.equals(user,null)) {
             user.setActive(true);
 
