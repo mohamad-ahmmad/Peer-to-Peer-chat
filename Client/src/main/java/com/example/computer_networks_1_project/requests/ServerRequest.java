@@ -7,6 +7,23 @@ public abstract class ServerRequest implements Request {
     protected String password;
     protected int port;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    @Override
+    public String toString(){
+        return username + "," + password + "," + port + "\n";
+    }
+
     public static abstract class ServerRequestBuilder<N> implements Builder<N>{
         protected String username;
         protected String password;

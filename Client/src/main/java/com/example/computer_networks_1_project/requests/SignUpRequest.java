@@ -7,10 +7,6 @@ public class SignUpRequest extends ServerRequest implements Request{
         this.password = signUpRequestBuilder.password;
     }
 
-    @Override
-    public String send() {
-        return null;
-    }
 
     public static class SignUpRequestBuilder extends ServerRequest.ServerRequestBuilder< SignUpRequest> {
 

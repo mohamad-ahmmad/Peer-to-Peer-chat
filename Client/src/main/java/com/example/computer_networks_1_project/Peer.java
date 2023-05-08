@@ -22,6 +22,16 @@ public class Peer {
     // messages that are sent to this peer when looked at from application point of view.
     private List<String> messagesSent = new ArrayList<>();
 
+    public List<String> getMessagesOrdered() {
+        return messagesOrdered;
+    }
+
+    public void setMessagesOrdered(List<String> messagesOrdered) {
+        this.messagesOrdered = messagesOrdered;
+    }
+
+    private List<String> messagesOrdered = new ArrayList<>();
+
     public void update(String name, String IP, int port) {
         this.name = new String(name);
         this.IP = new String(IP);
@@ -29,11 +39,15 @@ public class Peer {
     }
 
     public void deleteMessage(int index, boolean direction) {
+        String message;
         if(!direction) {
+            message = messagesSent.get(index);
             this.messagesSent.remove(index);
         } else {
+            message = messagesReceived.get(index);
             this.messagesReceived.remove(index);
         }
+        messagesOrdered.remove(message);
     }
     public String getName() {
         return name;

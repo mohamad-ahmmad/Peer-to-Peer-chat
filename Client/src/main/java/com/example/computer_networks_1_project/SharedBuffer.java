@@ -1,5 +1,6 @@
 package com.example.computer_networks_1_project;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +55,12 @@ public class SharedBuffer {
                     .toArray(String[]::new)); // typecast object[] to string[]
         } // or return an unmodifiable list of activePeers to ensure thread safety
     }
+
+    public List<Peer> getActivePeers(){
+        synchronized (monitor){
+            return new ArrayList<>(activePeers);
+        }
+    }
     /*
     * @param direction if false, the message is stored in the send buffer, the message is sent to that peer
     *                  otherwise, the message is stored in the received buffer.
@@ -74,6 +81,7 @@ public class SharedBuffer {
 
     public void deletePeerMessage(String ip, int port, int messageIndex, boolean direction) {
         synchronized (monitor){
+//            InetSocketAddress a = new InetSocketAddress(ip, port);
             Peer requestedPeer = activePeers.stream()
                     .filter(peer -> (Objects.equals(peer.getPort(), port) && Objects.equals(peer.getIP(),ip)))
                     .findAny()
@@ -103,13 +111,22 @@ public class SharedBuffer {
         }
     }
 
-    public Peer getPeerByIndex(int index) {
+    public Peer getPeer(int index) {
         synchronized (monitor) {
             try {
                 return activePeers.get(index);
             } catch (ArrayIndexOutOfBoundsException e) {
                 return null;
             }
+        }
+    }
+
+    public Peer getPeer(InetSocketAddress address) {
+        synchronized(monitor){
+            return activePeers.stream()
+                    .filter(peer -> (Objects.equals(address, peer.getAddress())))
+                    .findAny()
+                    .orElse(null);
         }
     }
 }

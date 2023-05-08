@@ -23,18 +23,18 @@
                   <VBox alignment="CENTER" prefHeight="348.0" prefWidth="242.0" spacing="5.0">
                      <children>
                         <Label text="Destination IP" />
-                        <TextField fx:id="txtDestinationIP" />
+                        <TextField fx:id="txtDestinationIP" disable="true" />
                         <Label text="Destination Port" />
-                        <TextField fx:id="txtDestinationPort" />
+                        <TextField fx:id="txtDestinationPort" disable="true" />
                         <Separator prefWidth="200.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Separator>
                         <Label text="Source IP" />
-                        <TextField fx:id="txtSourceIP" />
+                        <TextField fx:id="txtSourceIP" disable="true" />
                         <Label text="Source Port" />
-                        <TextField fx:id="txtSourcePort" />
+                        <TextField fx:id="txtSourcePort" disable="true" />
                         <Button fx:id="btnTest" mnemonicParsing="false" onAction="#testConnection" prefHeight="26.0" prefWidth="170.0" text="Test">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -63,7 +63,7 @@
                      <content>
                         <AnchorPane prefHeight="500.0" prefWidth="538.0">
                            <children>
-                              <VBox prefHeight="800.0" prefWidth="626.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-88.0" AnchorPane.topAnchor="0.0">
+                              <VBox fx:id="messagesContainer" prefHeight="800.0" prefWidth="620.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="500.0">
                                        <children>
@@ -72,7 +72,7 @@
                                           <Label text="Label" />
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                    <HBox prefHeight="100.0" prefWidth="589.0">
                                        <children>
                                           <Label text="Label" />
                                           <Label text="Label" />

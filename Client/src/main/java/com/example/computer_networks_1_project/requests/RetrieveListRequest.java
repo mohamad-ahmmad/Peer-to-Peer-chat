@@ -1,10 +1,6 @@
 package com.example.computer_networks_1_project.requests;
 
 public class RetrieveListRequest extends ServerRequest{
-    @Override
-    public String send() {
-        return null;
-    }
 
     private RetrieveListRequest(RetrieveListRequestBuilder x) {
         this.port = x.port;

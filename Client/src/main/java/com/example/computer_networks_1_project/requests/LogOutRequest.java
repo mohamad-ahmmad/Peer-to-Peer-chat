@@ -1,10 +1,7 @@
 package com.example.computer_networks_1_project.requests;
 
 public class LogOutRequest extends ServerRequest{
-    @Override
-    public String send() {
-        return null;
-    }
+
 
     private LogOutRequest(LogOutRequestBuilder x) {
         this.port = x.port;

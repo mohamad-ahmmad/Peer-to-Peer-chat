@@ -6,7 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="abb69af7-6e13-483e-be8f-4414cca6ccf1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/Peer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/SharedBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/SharedBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/controllers/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/controllers/ClientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/DeleteMessageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/DeleteMessageRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/LogOutRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/LogOutRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/PeerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/PeerRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/RetrieveListRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/RetrieveListRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/SendMessageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/SendMessageRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/ServerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/ServerRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/SignInRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/SignInRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/SignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/requests/SignUpRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/main/resources/com/example/computer_networks_1_project/client.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/resources/com/example/computer_networks_1_project/client.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -35,15 +47,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/USER-M/OneDrive/Desktop/Najah University/3rd year/2nd Sem/Computer Network/Project/Server&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/tanbo/Desktop/NPalestine_Competition/code/NPalestine_Optimization/untitled"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.server_.events" />
@@ -133,6 +144,8 @@
       <workItem from="1682932859026" duration="4945000" />
       <workItem from="1683011193628" duration="29000" />
       <workItem from="1683011274450" duration="1227000" />
+      <workItem from="1683052104434" duration="2156000" />
+      <workItem from="1683448912403" duration="430000" />
     </task>
     <servers />
   </component>

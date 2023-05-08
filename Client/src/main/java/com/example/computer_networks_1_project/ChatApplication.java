@@ -1,7 +1,9 @@
 package com.example.computer_networks_1_project;
 
 import com.example.computer_networks_1_project.controllers.ClientController;
-import com.example.computer_networks_1_project.requests.*;
+import com.example.computer_networks_1_project.requests.PeerRequest;
+import com.example.computer_networks_1_project.requests.Request;
+import com.example.computer_networks_1_project.requests.SendMessageRequest;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,6 +24,7 @@ public class ChatApplication extends Application {
         fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("client.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         System.out.println("fxml loaded");
+        ((ClientController)fxmlLoader.getController()).setUDPSocket(mySocket);
 
         scene.getStylesheets().add(String.valueOf(ChatApplication.class.getResource("style.css")));
         stage.setResizable(false);
@@ -37,22 +40,22 @@ public class ChatApplication extends Application {
         Thread sendMessages = new Thread(sendMessagesCallback, "send messages");
 
 
-        Request r = new SignInRequest.SignInRequestBuilder()
-                .setPort(5555)
-                .setUsername("salah")
-                .setPassword("123")
-                .build();
-        r.send();
+//        Request r = new SignInRequest.SignInRequestBuilder()
+//                .setPort(5555)
+//                .setUsername("salah")
+//                .setPassword("123")
+//                .build();
+//        r.send();
 
 
         try {
-            mySocket = new DatagramSocket();
+            mySocket = new CustomDatagramSocket();
             login(IPServer, portServer);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-//        processIncomingMessages.start();
+        processIncomingMessages.start();
         pingServer.start(); // this should be called after the user has logged in.
 //        sendMessages.start();
 
@@ -143,7 +146,24 @@ public class ChatApplication extends Application {
 
     }
 
-    public static DatagramSocket mySocket;
+    public static void sendMessage(CustomDatagramSocket mySocket, String message, String destinationIP, int destinationPort) throws IOException {
+
+        InetSocketAddress a = new InetSocketAddress(destinationIP, destinationPort);
+        Peer peerToSend = peersBuffer.getPeer(a);
+        peerToSend.getMessagesOrdered().add(message.replaceAll("^A-z|^0-9", ""));
+        peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false);
+
+
+        PeerRequest request = new SendMessageRequest.SendMessageRequestBuilder()
+                .setHeader("m")
+                .setContent(message)
+                .setDestinationAddress(a)
+                .build();
+
+        mySocket.send(request);
+    }
+
+    public static CustomDatagramSocket mySocket;
     public static Runnable sendMessagesCallback = () -> {
         Scanner in = new Scanner(System.in);
         // create buffer of message size
@@ -158,7 +178,7 @@ public class ChatApplication extends Application {
             System.out.println("Choose which peer (start from 1): ");
             int peerNumber = in.nextInt();
 
-            Peer peerToSend = peersBuffer.getPeerByIndex(peerNumber - 1);
+            Peer peerToSend = peersBuffer.getPeer(peerNumber - 1);
             if ("m".equals(selection)) {
 
             System.out.println("Type your message: ");
@@ -223,18 +243,25 @@ public class ChatApplication extends Application {
                 if ("m".equals(header[0])) {
                     messageReceived = messageReceived.substring(2);
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
-                    peersBuffer.setPeerMessage(incomingIP, incomingPacket.getPort(), messageReceived.replaceAll("^A-z|^0-9", ""), true);
+                    Peer p = peersBuffer.getPeer(new InetSocketAddress(incomingIP, incomingPacket.getPort()));
+                    peersBuffer.setPeerMessage(p, messageReceived.replaceAll("^A-z|^0-9", ""), true);
+//                    peersBuffer.setPeerMessage(incomingIP, incomingPacket.getPort(), messageReceived.replaceAll("^A-z|^0-9", ""), true);
+                    p.getMessagesOrdered().add(messageReceived.replaceAll("^A-z|^0-9", ""));
 
                     System.out.println(incomingPacket.getPort());
                     System.out.println(messageReceived);
 
+                    ((ClientController)fxmlLoader.getController()).updateMessages();
                 } else if ("d".equals(header[0])) {
                     int index = Integer.parseInt(header[1]);
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
                     peersBuffer.deletePeerMessage(incomingIP, incomingPacket.getPort(), index, true);
+
+                    ((ClientController)fxmlLoader.getController()).updateMessages();
                 }
 
             }
+
         } catch (SocketException e) {
             System.err.println(e.getMessage());
         } catch (IOException e) {

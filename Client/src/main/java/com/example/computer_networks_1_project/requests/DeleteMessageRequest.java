@@ -9,10 +9,9 @@ public class DeleteMessageRequest extends PeerRequest{
     }
 
     @Override
-    public String send() {
-        return null;
+    public String toString(){
+        return header + "," + index + "," + content;
     }
-
     public static class DeleteMessageRequestBuilder extends PeerRequestBuilder<DeleteMessageRequest> {
 
         @Override
