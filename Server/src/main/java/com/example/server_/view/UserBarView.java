@@ -1,12 +1,13 @@
 package com.example.server_.view;
 
 import com.example.server_.ServerApplication;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 
-public class UserBar extends FlowPane {
+public class UserBarView extends FlowPane {
 
     //INDICES : 0=>disconnect, 1=>connected;
     public static Image[] userStatus = {
@@ -20,14 +21,14 @@ public class UserBar extends FlowPane {
     private Text ip= new Text("");
     private Text port= new Text("");
 
-    public UserBar(String name){
+    public UserBarView(String name){
         super();
         this.name = name;
 
         initUI();
     }
 
-    public UserBar(String name, String ip, String port){
+    public UserBarView(String name, String ip, String port){
         super();
         this.name = name;
         this.port.setText(port);
@@ -43,7 +44,7 @@ public class UserBar extends FlowPane {
     }
 
     private void initUI() {
-
+        this.setPadding(new Insets( 1,1 ,1 ,3));
         this.setHgap(10.5);
         stat.setFitHeight(10);
         stat.setFitWidth(10);

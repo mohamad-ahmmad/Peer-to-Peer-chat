@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abb69af7-6e13-483e-be8f-4414cca6ccf1" name="Changes" comment="">
+
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/Peer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/SharedBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/SharedBuffer.java" afterDir="false" />
@@ -21,6 +22,15 @@
       <change beforePath="$PROJECT_DIR$/../Client/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/src/main/resources/com/example/computer_networks_1_project/client.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/resources/com/example/computer_networks_1_project/client.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/app/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/app/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/app/TestClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/server_/view/UserBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/server_/view/UserBarView.java" afterDir="false" />
+<!--=======-->
+<!--      <change beforePath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/main/java/com/example/computer_networks_1_project/ChatApplication.java" afterDir="false" />-->
+<!--&gt;>>>>>> 276e2157125b6eb26f933154bfba75ace9443163-->
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +134,8 @@
       <list>
         <item itemvalue="Application.ServerApplication" />
         <item itemvalue="Application.TestClient" />
+        <item itemvalue="Application.ServerApplication" />
+
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.HelloApplication" />
       </list>
@@ -139,6 +151,11 @@
       <updated>1682555651351</updated>
       <workItem from="1682555652732" duration="373000" />
       <workItem from="1682623812704" duration="5159000" />
+
+      <workItem from="1682685863939" duration="10896000" />
+      <workItem from="1682932755171" duration="717000" />
+      <workItem from="1683023576878" duration="1706000" />
+
       <workItem from="1682685863939" duration="10293000" />
       <workItem from="1682930644378" duration="12000" />
       <workItem from="1682932859026" duration="4945000" />
@@ -146,6 +163,8 @@
       <workItem from="1683011274450" duration="1227000" />
       <workItem from="1683052104434" duration="2156000" />
       <workItem from="1683448912403" duration="430000" />
+      <workItem from="1682932859026" duration="4335000" />
+
     </task>
     <servers />
   </component>
