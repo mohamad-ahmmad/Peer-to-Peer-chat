@@ -9,6 +9,11 @@ public class LogOutRequest extends ServerRequest{
         this.password = x.password;
     }
 
+    @Override
+    public String toString(){
+        return "log-out," + super.toString();
+    }
+
     public static class LogOutRequestBuilder extends ServerRequestBuilder<LogOutRequest>{
 
         public LogOutRequestBuilder(){

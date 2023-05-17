@@ -1,6 +1,7 @@
 package com.example.computer_networks_1_project;
 
 import java.net.InetSocketAddress;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,14 @@ public class SharedBuffer {
         }
     }
 
+    public Peer getPeer(String name){
+        synchronized (monitor) {
+            return activePeers.stream()
+                    .filter(peer -> Objects.equals(name, peer.getName()))
+                    .findAny()
+                    .orElse(null);
+        }
+    }
     public void printActivePeers(){
         synchronized (monitor){
             int i = 1;
@@ -56,6 +65,16 @@ public class SharedBuffer {
         } // or return an unmodifiable list of activePeers to ensure thread safety
     }
 
+    public List<String> getNamesOfActivePeers(){
+        synchronized (monitor){
+            return Arrays.asList(
+                    activePeers.stream()
+                    .map(peer -> peer.getName())
+                    .toArray(String[]::new)
+            );
+        }
+    }
+
     public List<Peer> getActivePeers(){
         synchronized (monitor){
             return new ArrayList<>(activePeers);
@@ -65,29 +84,29 @@ public class SharedBuffer {
     * @param direction if false, the message is stored in the send buffer, the message is sent to that peer
     *                  otherwise, the message is stored in the received buffer.
     * */
-    public void setPeerMessage(String ip, int port, String message, boolean direction) {
+    public void setPeerMessage(String ip, int port, String message, boolean direction, LocalDateTime date) {
         synchronized (monitor) {
+            // TODO remove unwanted code
             Peer requestedPeer = activePeers.stream()
                     .filter(peer -> (Objects.equals(peer.getPort(), port) && Objects.equals(peer.getIP(),ip)))
                     .findAny()
                     .orElse(null);
-            if (direction == false) { // message is sent to this peer
-                requestedPeer.getMessagesSent().add(message);
-            } else {
-                requestedPeer.getMessagesReceived().add(message);
-            }
+            Peer r = getPeer(new InetSocketAddress(ip, port));
+            setPeerMessage(r, message, direction, date);
         }
     }
 
-    public void deletePeerMessage(String ip, int port, int messageIndex, boolean direction) {
+    public void deletePeerMessage(String ip, int port, int messageIndex) {
         synchronized (monitor){
 //            InetSocketAddress a = new InetSocketAddress(ip, port);
+            // TODO remove unwanted code
+
             Peer requestedPeer = activePeers.stream()
                     .filter(peer -> (Objects.equals(peer.getPort(), port) && Objects.equals(peer.getIP(),ip)))
                     .findAny()
                     .orElse(null);
 
-            if(requestedPeer != null) requestedPeer.deleteMessage(messageIndex, direction);
+            if(requestedPeer != null) requestedPeer.deleteMessage(messageIndex);
         }
     }
     public Peer findPeer(Peer peer) {
@@ -101,8 +120,11 @@ public class SharedBuffer {
         }
     }
 
-    public void setPeerMessage(Peer peer, String message, boolean direction) {
+    public void setPeerMessage(Peer peer, String message, boolean direction, LocalDateTime date) {
         synchronized (monitor){
+            peer.getMessagesOrdered().add(new Message(message, direction, date));
+            // TODO remove unwanted code
+
             if(!direction) {
                 peer.getMessagesSent().add(message);
             } else {

@@ -34,6 +34,7 @@ public class ClientController implements Initializable {
     public void setUDPSocket(CustomDatagramSocket socket){
         this.mySocket = socket;
     }
+
     @FXML
     private Button btnLogout;
 
@@ -53,6 +54,9 @@ public class ClientController implements Initializable {
     private Label labelStatus;
 
     @FXML
+    private VBox messagesContainer;
+
+    @FXML
     private TextField txtDestinationIP;
 
     @FXML
@@ -69,7 +73,7 @@ public class ClientController implements Initializable {
 
     @FXML
     void logout(ActionEvent event) {
-        ChatApplication.logout();
+        System.out.println(ChatApplication.logout());
         Stage stage = (Stage) ((Scene)(((Node)event.getSource()).getScene())).getWindow();
         stage.close();
     }
@@ -102,14 +106,13 @@ public class ClientController implements Initializable {
         labelStatus.setText("Succeeded");
     }
 
+    private boolean flag;
     public void updateMessages(){
+        flag = false;
         Platform.runLater(
                 this::renderMessages
         );
     }
-
-    @FXML
-    private VBox messagesContainer;
 
     private void renderMessages(){
         messagesContainer.getChildren().removeAll(messagesContainer.getChildren());
@@ -127,7 +130,7 @@ public class ClientController implements Initializable {
         // changes the UI, so it is mandatory to use it.
         Platform.runLater(
                 () -> {
-                    List<String> peersList = ChatApplication.peersBuffer.getListOfActivePeers();
+                    List<String> peersList = ChatApplication.peersBuffer.getNamesOfActivePeers();
                     List<String> currentItems = comboBoxPeers.getItems();
 
                     Collections.sort(currentItems);
@@ -141,23 +144,63 @@ public class ClientController implements Initializable {
         );
     }
 
-    private boolean flag = false;
+    public Button getBtnDelete() {
+        return btnDelete;
+    }
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    void deleteMessage(ActionEvent event) {
+        MessageUI msgToDelete = (MessageUI) messagesContainer.getChildren()
+                .stream()
+                .filter(message -> ((MessageUI) message).getMessage().isSelected())
+                .findAny()
+                .orElse(null);
+
+        System.out.println(msgToDelete.getText());
+        int index = messagesContainer.getChildren().indexOf(msgToDelete);
+
+            ChatApplication.deleteMessage(index, currentPeer);
+
+
+
+
+    }
+
+    Peer currentPeer;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // load active peers from chatApplication into comboBox
         ChatApplication.waitToLoad.countDown();
+
+
+
         comboBoxPeers.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && !flag) {
+            if (newVal != null) {
                 if (!newVal.equals("Select peer")) {
-                    String[] tokens = newVal.split(":");
-                    destinationIP = new String(tokens[0]);
-                    destinationPort = Integer.parseInt(tokens[1]);
+//                    String[] tokens = newVal.split(":");
+
+                        currentPeer = ChatApplication.peersBuffer.getPeer(newVal);
+//                    destinationIP = new String(tokens[0]);
+//                    destinationPort = Integer.parseInt(tokens[1]);
+                        destinationIP = currentPeer.getIP();
+                    destinationPort = currentPeer.getPort();
+
+                    txtDestinationIP.setText(destinationIP);
+                    txtDestinationPort.setText(String.valueOf(destinationPort));
+
+                    txtSourceIP.setText("127.0.0.1");
+                    txtSourcePort.setText(String.valueOf(mySocket.getLocalPort()));
                     renderMessages();
                 }
             }
-            flag = false;
         });
+
 //        comboBoxPeers.getSelectionModel().selectedItemProperty().addListener(
 //                (obs, old, newVal) -> {
 //                    flag = true;

@@ -1,9 +1,8 @@
 package com.example.computer_networks_1_project;
 
 import com.example.computer_networks_1_project.controllers.ClientController;
-import com.example.computer_networks_1_project.requests.PeerRequest;
-import com.example.computer_networks_1_project.requests.Request;
-import com.example.computer_networks_1_project.requests.SendMessageRequest;
+import com.example.computer_networks_1_project.controllers.LoginController;
+import com.example.computer_networks_1_project.requests.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
@@ -21,49 +21,27 @@ public class ChatApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("client.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         System.out.println("fxml loaded");
-        ((ClientController)fxmlLoader.getController()).setUDPSocket(mySocket);
+//        ((ClientController)fxmlLoader.getController()).setUDPSocket(mySocket);
 
-        scene.getStylesheets().add(String.valueOf(ChatApplication.class.getResource("style.css")));
+        ((LoginController)fxmlLoader.getController()).setUDPSocket(mySocket);
+//        scene.getStylesheets().add(String.valueOf(ChatApplication.class.getResource("style.css")));
         stage.setResizable(false);
-        stage.setTitle("Chat System");
+        stage.setTitle("Chatty");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
 
-        Thread processIncomingMessages = new Thread(processIncomingMessagesCallback, "process incoming messages");
-        Thread pingServer = new Thread(pingServerCallback, "ping server");
-        Thread sendMessages = new Thread(sendMessagesCallback, "send messages");
-
-
-//        Request r = new SignInRequest.SignInRequestBuilder()
-//                .setPort(5555)
-//                .setUsername("salah")
-//                .setPassword("123")
-//                .build();
-//        r.send();
-
-
         try {
             mySocket = new CustomDatagramSocket();
-            login(IPServer, portServer);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        processIncomingMessages.start();
-        pingServer.start(); // this should be called after the user has logged in.
-//        sendMessages.start();
-
-        Scanner in = new Scanner(System.in);
-
-//        logout();
         launch();
-
     }
 
     public static InetAddress IPServer;
@@ -81,6 +59,56 @@ public class ChatApplication extends Application {
     public static final int MAX_MESSAGE_SIZE = 2048;
     public static SharedBuffer peersBuffer = new SharedBuffer();
 
+    public static String signup(String username, int clientPort, String password, InetSocketAddress serverAddress) {
+        Request r = new SignUpRequest.SignUpRequestBuilder()
+                .setUsername(username)
+                .setPort(clientPort)
+                .setPassword(password)
+                .build();
+
+        try (Socket clientSocket = new Socket()) {
+            clientSocket.connect(serverAddress);
+
+            Formatter out = new Formatter(clientSocket.getOutputStream());
+
+            out.format(r.toString());
+            out.flush();
+
+            Scanner input = new Scanner(clientSocket.getInputStream());
+
+            String returnValue = "no response";
+
+            if (input.hasNext()) {
+                returnValue = input.next();
+            }
+            clientSocket.close();
+            input.close();
+            out.close();
+
+            return returnValue;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    public static void sendMessage(CustomDatagramSocket mySocket, String message, String destinationIP, int destinationPort) throws IOException {
+
+        InetSocketAddress a = new InetSocketAddress(destinationIP, destinationPort);
+        Peer peerToSend = peersBuffer.getPeer(a);
+        peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false, LocalDateTime.now());
+
+
+        PeerRequest request = new SendMessageRequest.SendMessageRequestBuilder()
+                .setHeader("m")
+                .setContent(message)
+                .setDestinationAddress(a)
+                .build();
+
+        mySocket.send(request);
+    }
 
 
     public static String logout() {
@@ -91,7 +119,13 @@ public class ChatApplication extends Application {
             Scanner fromServer = new Scanner(logoutSocket.getInputStream());
             Formatter toServer = new Formatter(logoutSocket.getOutputStream());
 
-            toServer.format("log-out," + username +","+ password + "," + mySocket.getLocalPort() + "\n");
+            Request r = new LogOutRequest.LogOutRequestBuilder()
+                    .setPort(mySocket.getLocalPort())
+                    .setPassword(password)
+                    .setUsername(username)
+                    .build();
+
+            toServer.format(r.toString());
             toServer.flush();
 
             if(fromServer.hasNext()) {
@@ -107,64 +141,70 @@ public class ChatApplication extends Application {
     public static String username;
     public static String password;
 
-    public static String login(InetAddress serverIP, int serverPort) throws IOException {
+    public static String login(InetAddress serverIP, int serverPort, String username, String password) throws IOException {
 
         Socket clientSocket = new Socket();
+        ChatApplication.username = username;
+        ChatApplication.password = password;
 
-        System.out.println("connecting to server...");
+//        System.out.println("connecting to server...");
         clientSocket.connect(new InetSocketAddress(serverIP, serverPort));
 
         Formatter output = new Formatter(clientSocket.getOutputStream());
-        System.out.println("Enter username and password: ");
-        Scanner keyStream = new Scanner(System.in);
 
-        String username = keyStream.next();
-        String password = keyStream.next();
+        Request r = new SignInRequest.SignInRequestBuilder()
+                .setUsername(username)
+                .setPassword(password)
+                .setPort(mySocket.getLocalPort())
+                .build();
 
-        output.format("sign-in," + username + "," + password + "," + mySocket.getLocalPort() + "\n"); // change port registered at server
+        output.format(r.toString()); // change port registered at server
         output.flush();
 
         Scanner input = new Scanner(clientSocket.getInputStream());
 
+        Thread processIncomingMessages = new Thread(processIncomingMessagesCallback, "process incoming messages");
+        Thread pingServer = new Thread(pingServerCallback, "ping server");
+
+        String response = "no response";
 
         if(input.hasNext()) {
-            String response = input.next();
-            clientSocket.close();
-            System.out.println(response);
-//            mySocket = new DatagramSocket(clientSocket.getLocalPort());
-            input.close();
-
+            response = input.next();
             status = true;
-            return response;
-
+            IPServer = serverIP;
+            portServer = serverPort;
+            processIncomingMessages.start();
+            pingServer.start(); // this should be called after the user has logged in.
         }
+
         clientSocket.close();
-//        mySocket = new DatagramSocket(clientSocket.getLocalPort());
-            input.close();
-            output.close();
-        return "no response";
+        input.close();
+        output.close();
 
+        return response;
     }
 
-    public static void sendMessage(CustomDatagramSocket mySocket, String message, String destinationIP, int destinationPort) throws IOException {
+    public static void deleteMessage(int index, Peer peerToSend){
 
-        InetSocketAddress a = new InetSocketAddress(destinationIP, destinationPort);
-        Peer peerToSend = peersBuffer.getPeer(a);
-        peerToSend.getMessagesOrdered().add(message.replaceAll("^A-z|^0-9", ""));
-        peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false);
+        byte[] sendBuffer;
 
+        peerToSend.deleteMessage(index);
 
-        PeerRequest request = new SendMessageRequest.SendMessageRequestBuilder()
-                .setHeader("m")
-                .setContent(message)
-                .setDestinationAddress(a)
-                .build();
+        String message = "d," + index + ",";
+        sendBuffer = message.getBytes();
 
-        mySocket.send(request);
+        DatagramPacket deletePacket = new DatagramPacket(sendBuffer, sendBuffer.length, peerToSend.getAddress());
+        try {
+            mySocket.send(deletePacket);
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     public static CustomDatagramSocket mySocket;
-    public static Runnable sendMessagesCallback = () -> {
+    /*public static Runnable sendMessagesCallback = () -> {
         Scanner in = new Scanner(System.in);
         // create buffer of message size
         byte[] sendBuffer;
@@ -192,7 +232,7 @@ public class ChatApplication extends Application {
 
             try {
 
-                peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false);
+                peersBuffer.setPeerMessage(peerToSend, message.replaceAll("^A-z|^0-9", ""), false, LocalDateTime.now());
 
                 // add message prefix
                 message = "m," + message;
@@ -210,6 +250,7 @@ public class ChatApplication extends Application {
                 System.out.println("select message number: ");
                 int index = Integer.parseInt(in.next());
 
+                // TODO connect this code to UI to display results
                 peerToSend.getMessagesSent().remove(index);
                 String message = "d," + index;
                 sendBuffer = message.getBytes();
@@ -225,7 +266,7 @@ public class ChatApplication extends Application {
 
 
         }
-    };
+    };*/
 
     List<Peer> list = Collections.synchronizedList(new ArrayList<>());
     public static Runnable processIncomingMessagesCallback = () -> {
@@ -244,9 +285,8 @@ public class ChatApplication extends Application {
                     messageReceived = messageReceived.substring(2);
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
                     Peer p = peersBuffer.getPeer(new InetSocketAddress(incomingIP, incomingPacket.getPort()));
-                    peersBuffer.setPeerMessage(p, messageReceived.replaceAll("^A-z|^0-9", ""), true);
+                    peersBuffer.setPeerMessage(p, messageReceived.replaceAll("^A-z|^0-9", ""), true, LocalDateTime.now());
 //                    peersBuffer.setPeerMessage(incomingIP, incomingPacket.getPort(), messageReceived.replaceAll("^A-z|^0-9", ""), true);
-                    p.getMessagesOrdered().add(messageReceived.replaceAll("^A-z|^0-9", ""));
 
                     System.out.println(incomingPacket.getPort());
                     System.out.println(messageReceived);
@@ -255,7 +295,7 @@ public class ChatApplication extends Application {
                 } else if ("d".equals(header[0])) {
                     int index = Integer.parseInt(header[1]);
                     String incomingIP = incomingPacket.getAddress().toString().split("/")[1];
-                    peersBuffer.deletePeerMessage(incomingIP, incomingPacket.getPort(), index, true);
+                    peersBuffer.deletePeerMessage(incomingIP, incomingPacket.getPort(), index);
 
                     ((ClientController)fxmlLoader.getController()).updateMessages();
                 }

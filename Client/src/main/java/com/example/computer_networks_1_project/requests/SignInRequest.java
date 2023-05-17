@@ -9,6 +9,11 @@ public class SignInRequest extends ServerRequest{
         this.password = x.password;
     }
 
+    @Override
+    public String toString(){
+        return "sign-in," + super.toString();
+    }
+
     public static class SignInRequestBuilder extends ServerRequestBuilder<SignInRequest>{
 
         public SignInRequestBuilder(){
